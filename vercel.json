@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "src/index.ts", "use": "@vercel/node" }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/src/index.ts" }
+  ],
+  "redirects": [
+    { "source": "/", "destination": "https://github.com/agonyz/github-readme-packagist-stats" }
+  ]
+}
