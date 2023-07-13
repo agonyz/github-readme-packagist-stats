@@ -19,10 +19,6 @@ export const cardCss = `
   font-style: italic;
   font-weight: 500;
 }
-#avatar {
-  font-size: 45px;
-  font-family: virgil;
-}
 .bundle-card {
   fill: #fff;
   stroke: #b34e22;   
