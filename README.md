@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-  Get dynamically generated statistics for your Packagist Bundles
+  Dynamically generated statistics of your Packagist Bundles for your GitHub README
 </p>
 
 
