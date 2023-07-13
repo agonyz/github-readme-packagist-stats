@@ -1,5 +1,17 @@
-## GitHub Readme Packagist Stats
-Get dynamically generated stats for your top packagist bundles
+<div align="center">
+  <img alt="Packagist Logo" src="docs/packagist.svg" width="100" align="center">
+  <h1>GitHub Readme Packagist Stats</h1>
+
+[![Badge](https://img.shields.io/github/issues/agonyz/github-readme-packagist-stats?style=for-the-badge)](https://github.com/agonyz/github-readme-packagist-stats/issues)
+[![Badge](https://img.shields.io/github/issues-pr/agonyz/github-readme-packagist-stats?style=for-the-badge)](https://github.com/agonyz/github-readme-packagist-stats/pulls)
+[![Badge](https://img.shields.io/github/stars/agonyz/github-readme-packagist-stats?style=for-the-badge)](https://github.com/agonyz/github-readme-packagist-stats/stargazers)
+
+</div>
+
+<p align="center">
+  Get dynamically generated statistics for your Packagist Bundles
+</p>
+
 
 ## Features
 - [Top bundles](#top-bundles)
@@ -9,9 +21,11 @@ Get dynamically generated stats for your top packagist bundles
 
 ## Top bundles
 ### By vendor
-- Retrieves the top bundles for the given vendor
+Retrieves the top bundles for the given vendor
 - How to use:
-  - https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor={your-packagist-user}
+  ```markdown
+  /api/packagist/card?vendor={your-packagist-user}
+  ```
 - Example:
   ```markdown
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz)
@@ -19,13 +33,15 @@ Get dynamically generated stats for your top packagist bundles
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz)
 
 ### By maintainer
-- Retrieves the top bundles for the given maintainer from the given vendor
+Retrieves the top bundles for the given maintainer from the given vendor
 - How to use:
-  - https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor={your-example-organization}&maintainer={your-packagist-user}
+  ```markdown
+  /api/packagist/card?vendor={your-example-organization}&maintainer={your-packagist-user}
+  ```
 - Example:
   ```markdown
-  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor={your-example-organization}&maintainer={your-packagist-user})
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=exampleOrganization&maintainer=agonyz)
   ```
-  
+
 ## Caching
 - In order to not overuse the packagist api a cache time of `12 hours` was implemented.
