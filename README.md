@@ -18,6 +18,7 @@
   - [By vendor](#by-vendor)
   - [By maintainer](#by-maintainer)
 - [Themes](#themes)
+  - [Add own themes](#add-own-themes) 
 - [Caching](#caching)
 
 ## Top bundles
@@ -55,6 +56,25 @@ You can use different themes for the cards
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&theme=dark)
   ```
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&theme=dark)
+
+### Add own themes
+If you want to add your own themes, you can do it like this
+- Navigate to the theme directory `src/themes/`
+- Create a theme file e.g. `dark.ts`
+- Place your styles inside the theme file and export them
+  ```ts
+  export const darkTheme = `
+  #rect {
+  rx: 7;
+  ...
+  }
+  #name {
+  font-family: "Ubuntu", "Helvetica", sans-serif;
+  ...
+  `
+  ```
+- Add a switch case in the ThemeService `src/services/theme.service.ts`
+- Create a pull request e.g. `feature/add-theme-{theme-name}`
 
 ## Caching
 - In order to not overuse the packagist api a cache time of `12 hours` was implemented.
