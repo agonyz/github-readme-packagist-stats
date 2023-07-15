@@ -1,14 +1,15 @@
 import { Package } from '@agonyz/packagist-api-client/lib/interfaces';
 const { createSVGWindow } = require('svgdom');
 const d3 = require('d3-node');
-import { cardCss } from '../styles/card';
+import { ThemeService } from './theme.service';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export class CardService {
   createCard(
     bundles: Package[],
     vendor: string,
-    maintainer: string | null
+    maintainer: string | null,
+    theme: string | null
   ): string {
     // if maintainer is set, replace the vendor
     if (maintainer) {
@@ -21,8 +22,8 @@ export class CardService {
     const d3n = new d3({ window, document });
     const svg = d3n.createSVG(svgWidth, svgHeight);
 
-    // add stylesheet
-    svg.append('style').text(cardCss);
+    // add theme
+    svg.append('style').text(ThemeService.getStyleContent(theme));
 
     // create main card
     this.createMainCard(svg, svgHeight, svgWidth);
