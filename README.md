@@ -73,9 +73,9 @@ You can skip bundles you don't want to display
   ```
 - Example:
   ```markdown
-  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-pagespeed-insights-bundle)
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-page-speed-insights-bundle)
   ```
-  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-pagespeed-insights-bundle)
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-page-speed-insights-bundle)
 
 
 ## Caching
