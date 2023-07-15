@@ -10,12 +10,10 @@ export class BundleService {
       skip.split(',').map((bundle) => bundle.trim())
     );
 
-    packages.packageNames = packages.packageNames
-      .filter((bundle) => {
-        const bundleName = bundle.replace(vendor + '/', '');
-        return !bundlesToSkip.has(bundleName);
-      })
-      .map((bundle) => vendor + '/' + bundle.replace(vendor + '/', ''));
+    packages.packageNames = packages.packageNames.filter((bundle) => {
+      const bundleName = bundle.replace(vendor + '/', '');
+      return !bundlesToSkip.has(bundleName);
+    });
 
     if (packages.packageNames.length <= 0) {
       return null;
