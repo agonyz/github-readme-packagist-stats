@@ -1,11 +1,8 @@
-export const cardCss = `
-#circle-border {
-  fill: gray;
-}
+export const lightTheme = `
 #rect {
   rx: 7;
   fill: #FAFAFA;
-  stroke: rgb(228, 226, 226);;
+  stroke: rgb(228, 226, 226);
   stroke-width: 1;
 }
 #name {

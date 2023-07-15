@@ -17,6 +17,7 @@
 - [Top bundles](#top-bundles)
   - [By vendor](#by-vendor)
   - [By maintainer](#by-maintainer)
+- [Themes](#themes)
 - [Caching](#caching)
 
 ## Top bundles
@@ -42,6 +43,18 @@ Retrieves the top bundles for the given maintainer from the given vendor
   ```markdown
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=exampleOrganization&maintainer=agonyz)
   ```
+
+## Themes
+You can use different themes for the cards
+- How to use: 
+  ```markdown
+  /api/packagist/card?vendor={your-packagist-user}&theme=dark
+  ```
+- Example:
+  ```markdown
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&theme=dark)
+  ```
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&theme=dark)
 
 ## Caching
 - In order to not overuse the packagist api a cache time of `12 hours` was implemented.
