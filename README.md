@@ -57,4 +57,4 @@ You can use different themes for the cards
   ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&theme=dark)
 
 ## Caching
-- In order to not overuse the packagist api a cache time of `2 hours` was implemented.
+- In order to not overuse the packagist api a cache time of `12 hours` was implemented.

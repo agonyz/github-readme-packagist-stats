@@ -26,6 +26,10 @@ class MainRouter {
         return res.status(400).send('No vendor was given in the request.');
       }
 
+      // log request information - may handle it in a helper function
+      console.log({ vendor });
+      console.log({ maintainer });
+
       // check if the response is already cached
       if (req.headers['x-vercel-cache'] === 'HIT') {
         res.status(304).send();
@@ -45,8 +49,8 @@ class MainRouter {
           );
       }
 
-      // set cache control headers for successful response (2 hours)
-      res.set('Cache-Control', 'public, max-age=7200');
+      // set cache control headers for successful response (12 hours)
+      res.set('Cache-Control', 'public, max-age=43200');
       res.set('Content-Type', 'image/svg+xml');
       res.send(
         this.cardService.createCard(packagistData, vendor, maintainer, theme)

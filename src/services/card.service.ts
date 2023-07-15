@@ -119,8 +119,7 @@ export class CardService {
       .attr('height', 55)
       .attr('x', 30)
       .attr('y', startY)
-      .attr('class', 'bundle-card')
-      .style('fill', '#fff');
+      .attr('class', 'bundle-card');
     const bundleName = svg
       .append('text')
       .attr('x', 40)
@@ -152,7 +151,7 @@ export class CardService {
         'd',
         'M27.414 19.414l-10 10c-0.781 0.781-2.047 0.781-2.828 0l-10-10c-0.781-0.781-0.781-2.047 0-2.828s2.047-0.781 2.828 0l6.586 6.586v-19.172c0-1.105 0.895-2 2-2s2 0.895 2 2v19.172l6.586-6.586c0.39-0.39 0.902-0.586 1.414-0.586s1.024 0.195 1.414 0.586c0.781 0.781 0.781 2.047 0 2.828z'
       )
-      .attr('class', 'downloads')
+      .attr('class', 'download-icon')
       .attr('transform', `translate(368, ${startY + 8}), scale(0.40)`);
     const starIcon = svg
       .append('path')
@@ -160,7 +159,7 @@ export class CardService {
         'd',
         'M32 12.408l-11.056-1.607-4.944-10.018-4.944 10.018-11.056 1.607 8 7.798-1.889 11.011 9.889-5.199 9.889 5.199-1.889-11.011 8-7.798z'
       )
-      .attr('class', 'stars')
+      .attr('class', 'star-icon')
       .attr('transform', `translate(368, ${startY + 28}), scale(0.40)`);
     const downloads = svg
       .append('text')

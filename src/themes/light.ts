@@ -1,7 +1,4 @@
 export const lightTheme = `
-#circle-border {
-  fill: gray;
-}
 #rect {
   rx: 7;
   fill: #FAFAFA;
