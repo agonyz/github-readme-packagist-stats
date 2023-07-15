@@ -2,8 +2,6 @@ export const darkTheme = `
 #rect {
   rx: 7;
   fill: #222222;
-  stroke: rgb(228, 226, 226);
-  stroke-width: 1;
 }
 #name {
   font-family: "Ubuntu", "Helvetica", sans-serif;
