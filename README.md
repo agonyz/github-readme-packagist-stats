@@ -61,19 +61,7 @@ You can use different themes for the cards
 To add your own themes, do the following:
 - Navigate to the theme directory `src/themes/`
 - Create a theme file e.g. `dark.ts`
-- Place your styles inside the theme file and export them
-  ```ts
-  export const darkTheme = `
-  #rect {
-  rx: 7;
-  ...
-  }
-  #name {
-  font-family: "Ubuntu", "Helvetica", sans-serif;
-  ...
-  `
-  ```
-- Add a switch case in the ThemeService `src/services/theme.service.ts`
+- Place your styles inside the theme file and export your theme
 - Create a pull request e.g. `feature/add-theme-{theme-name}`
 
 ## Caching

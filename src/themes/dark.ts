@@ -1,4 +1,4 @@
-export const darkTheme = `
+const styleContent = `
 #rect {
   rx: 7;
   fill: #222222;
@@ -54,3 +54,8 @@ export const darkTheme = `
   fill: #f2f2f2;
 }
 `;
+
+export const darkTheme = {
+  name: 'dark',
+  styleContent: styleContent,
+};

@@ -1,4 +1,4 @@
-export const lightTheme = `
+const styleContent = `
 #rect {
   rx: 7;
   fill: #FAFAFA;
@@ -44,3 +44,8 @@ export const lightTheme = `
   font-size: 12px;
 }
 `;
+
+export const lightTheme = {
+  name: 'light',
+  styleContent: styleContent,
+};
