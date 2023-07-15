@@ -7,6 +7,7 @@ import {
 } from '@agonyz/packagist-api-client/lib/interfaces';
 import { SortedPackage } from '../interfaces/packagist.interface';
 import { LoggerService } from './logger.service';
+import { BundleService } from './bundle.service';
 
 export class PackagistService {
   private client: PackagistApi;
@@ -23,10 +24,12 @@ export class PackagistService {
    *
    * @param vendor
    * @param maintainer
+   * @param skip
    */
   async getPackagistData(
     vendor: string,
-    maintainer: string | null
+    maintainer: string | null,
+    skip: string | null
   ): Promise<Package[] | null> {
     // get packages by vendor
     let packages;
@@ -38,6 +41,14 @@ export class PackagistService {
     } catch (error) {
       this.loggerService.logError(error);
       return null;
+    }
+
+    // skip bundles if skip is set
+    if (skip) {
+      packages = BundleService.skipBundles(skip, packages, vendor);
+      if (!packages) {
+        return null;
+      }
     }
 
     // get maintainer top bundles if maintainer is set

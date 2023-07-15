@@ -20,6 +20,7 @@ class MainRouter {
       const maintainer: string | null =
         (req.query.maintainer as string) ?? null;
       const theme: string | null = (req.query.theme as string) ?? null;
+      const skip: string | null = (req.query.skip as string) ?? null;
 
       // throw error if vendor is missing
       if (!vendor) {
@@ -38,7 +39,8 @@ class MainRouter {
 
       const packagistData = await this.packagistService.getPackagistData(
         vendor,
-        maintainer
+        maintainer,
+        skip
       );
 
       if (!packagistData) {

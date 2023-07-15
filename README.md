@@ -18,7 +18,8 @@
   - [By vendor](#by-vendor)
   - [By maintainer](#by-maintainer)
 - [Themes](#themes)
-  - [Add own themes](#add-own-themes) 
+  - [Add own themes](#add-own-themes)
+- [Skip Bundles](#skip-bundles)
 - [Caching](#caching)
 
 ## Top bundles
@@ -63,6 +64,19 @@ To add your own themes, do the following:
 - Create a theme file e.g. `dark.ts`
 - Place your styles inside the theme file and export your theme
 - Create a pull request e.g. `feature/add-theme-{theme-name}`
+
+## Skip Bundles
+You can skip bundles you don't want to display
+- How to use:
+  ```markdown
+  /api/packagist/card?vendor={your-packagist-user}&skip={bundle-name1, bundle-name2, ..}
+  ```
+- Example:
+  ```markdown
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-pagespeed-insights-bundle)
+  ```
+  ![Packagist Top Bundles](https://github-readme-packagist-stats.vercel.app/api/packagist/card?vendor=agonyz&skip=contao-countdown-bundle,contao-pagespeed-insights-bundle)
+
 
 ## Caching
 - In order to not overuse the packagist api a cache time of `12 hours` was implemented.
