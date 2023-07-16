@@ -2,10 +2,8 @@ import PackagistApi from '@agonyz/packagist-api-client';
 import {
   Maintainer,
   Package,
-  PackageDownloadStats,
   PackagesByOrganization,
 } from '@agonyz/packagist-api-client/lib/interfaces';
-import { SortedPackage } from '../interfaces/packagist.interface';
 import { LoggerService } from './logger.service';
 import { BundleService } from './bundle.service';
 
@@ -21,7 +19,6 @@ export class PackagistService {
   }
 
   /**
-   *
    * @param vendor
    * @param maintainer
    * @param skip
@@ -31,71 +28,40 @@ export class PackagistService {
     maintainer: string | null,
     skip: string | null
   ): Promise<Package[] | null> {
-    // get packages by vendor
-    let packages;
     try {
-      packages = await this.client.getPackagesByOrganization(vendor);
-      if (!packages || packages.packageNames.length <= 0) {
+      let packages = await this.getPackagesByVendor(vendor);
+      if (!packages || packages.packageNames.length === 0) {
         return null;
       }
-    } catch (error) {
-      this.loggerService.logError(error);
-      return null;
-    }
 
-    // skip bundles if skip is set
-    if (skip) {
-      packages = BundleService.skipBundles(skip, packages, vendor);
-      if (!packages) {
-        return null;
-      }
-    }
-
-    // get maintainer top bundles if maintainer is set
-    if (maintainer) {
-      const maintainerBundles: Package[] | null =
-        await this.getMaintainerBundles(packages, maintainer);
-      return maintainerBundles?.slice(0, 3) ?? null;
-    }
-
-    // sort packages by total download stats and only keep the 3 top packages
-    const sortedPackages = await this.getSortedPackages(packages);
-
-    if (sortedPackages) {
-      const topPackages = sortedPackages.slice(0, 3);
-      return this.getDetailPackageData(topPackages);
-    }
-    return null;
-  }
-
-  /**
-   * sort packages by total download stats
-   * @param packages
-   */
-  private async getSortedPackages(
-    packages: PackagesByOrganization
-  ): Promise<SortedPackage[] | null> {
-    try {
-      const sortedPackages: SortedPackage[] = await Promise.all(
-        packages.packageNames.map(async (packageName: string) => {
-          const result: PackageDownloadStats =
-            await this.client.getPackageDownloadStats(packageName);
-
-          return {
-            packageName: packageName,
-            downloadStats: result,
-          };
-        })
-      );
-
-      sortedPackages.sort((a: SortedPackage, b: SortedPackage) => {
-        return (
-          Number(b.downloadStats.downloads.total) -
-          Number(a.downloadStats.downloads.total)
+      if (skip) {
+        const filteredPackages = BundleService.skipBundles(
+          skip,
+          packages,
+          vendor
         );
-      });
+        if (!filteredPackages) {
+          return null;
+        }
+        packages = filteredPackages;
+      }
 
-      return sortedPackages;
+      let detailedPackages = await this.getDetailPackageData(packages);
+      if (!detailedPackages) {
+        return null;
+      }
+
+      if (maintainer) {
+        detailedPackages = this.getMaintainerBundles(
+          detailedPackages,
+          maintainer
+        );
+        if (!detailedPackages) {
+          return null;
+        }
+      }
+
+      return this.getTopPackagesByDownloads(detailedPackages, 3);
     } catch (error) {
       this.loggerService.logError(error);
       return null;
@@ -103,16 +69,33 @@ export class PackagistService {
   }
 
   /**
-   * get detail information for the top packages
+   * @param vendor
+   * @private
+   */
+  private async getPackagesByVendor(
+    vendor: string
+  ): Promise<PackagesByOrganization | null> {
+    try {
+      const packages: PackagesByOrganization =
+        await this.client.getPackagesByOrganization(vendor);
+      return packages && packages.packageNames.length > 0 ? packages : null;
+    } catch (error) {
+      this.loggerService.logError(error);
+      return null;
+    }
+  }
+
+  /**
    * @param packages
+   * @private
    */
   private async getDetailPackageData(
-    packages: SortedPackage[]
+    packages: PackagesByOrganization
   ): Promise<Package[] | null> {
     try {
       return await Promise.all(
-        packages.map(async (sortedPackage: SortedPackage) => {
-          return await this.client.getPackageInfo(sortedPackage.packageName);
+        packages.packageNames.map(async (packageName: string) => {
+          return await this.client.getPackageInfo(packageName);
         })
       );
     } catch (error) {
@@ -121,58 +104,37 @@ export class PackagistService {
     }
   }
 
-  private async getMaintainerBundles(
-    organizationPackages: PackagesByOrganization,
+  /**
+   * @param packages
+   * @param maintainer
+   * @private
+   */
+  private getMaintainerBundles(
+    packages: Package[],
     maintainer: string
-  ): Promise<Package[] | null> {
-    try {
-      const packageNames: string[] = organizationPackages.packageNames;
-      const packageDetails: (Package | null)[] = await Promise.all(
-        packageNames.map(async (packageName: string) => {
-          try {
-            return await this.client.getPackageInfo(packageName);
-          } catch (error) {
-            this.loggerService.logError(error);
-            return null;
-          }
-        })
-      );
+  ): Package[] | null {
+    const maintainerPackages = packages.filter((pkg: Package) =>
+      pkg.package.maintainers.some((pkgMaintainer: Maintainer) =>
+        pkgMaintainer.name.includes(maintainer)
+      )
+    );
+    return maintainerPackages.length > 0 ? maintainerPackages : null;
+  }
 
-      const maintainerPackages: Package[] = packageDetails
-        .filter(
-          (packageDetail: Package | null): packageDetail is Package =>
-            packageDetail !== null
-        )
-        .filter((packageDetail: Package): packageDetail is Package => {
-          return packageDetail.package.maintainers.some(
-            (packageMaintainer: Maintainer) => {
-              return packageMaintainer.name === maintainer;
-            }
-          );
-        })
-        .map((packageDetail: Package): Package => packageDetail);
-
-      maintainerPackages.sort((a: Package, b: Package) => {
-        const totalDownloadsA: number = a.package.downloads.total;
-        const totalDownloadsB: number = b.package.downloads.total;
-
-        if (totalDownloadsA < totalDownloadsB) {
-          return 1;
-        } else if (totalDownloadsA > totalDownloadsB) {
-          return -1;
-        } else {
-          return 0;
-        }
-      });
-
-      if (!maintainerPackages || maintainerPackages.length <= 0) {
-        return null;
-      }
-
-      return maintainerPackages;
-    } catch (error) {
-      this.loggerService.logError(error);
-      return null;
-    }
+  /**
+   * @param packages
+   * @param count
+   * @private
+   */
+  private getTopPackagesByDownloads(
+    packages: Package[],
+    count: number
+  ): Package[] {
+    return packages
+      .sort(
+        (a: Package, b: Package) =>
+          b.package.downloads.total - a.package.downloads.total
+      )
+      .slice(0, count);
   }
 }
